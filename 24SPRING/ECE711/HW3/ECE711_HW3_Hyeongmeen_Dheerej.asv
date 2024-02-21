@@ -61,7 +61,7 @@ plot(vs.q,vs.d,'*r');grid on; hold on
 axis([-200 200 -200 200]);
 
 for k = 1:1:iter
-    quiver(vs.q((k-1)*steps+1),-vs.d((k-1)*steps+1),'AutoScale','off');
+    quiver(0,0,vs.q((k-1)*steps+1),-vs.d((k-1)*steps+1),'AutoScale','off');
     drawnow
 end
 hold off;
@@ -76,7 +76,7 @@ plot(Vqds,'.r');grid on; hold on
 axis([-200 200 -200 200]);
 
 for k = 1:1:iter
-    quiver(vs.qd*cos(theta_sync((k-1)*steps+1)),-vs.qd*sin(theta_sync((k-1)*steps+1)),'AutoScale','off');
+    quiver(0,0,vs.qd*cos(theta_sync((k-1)*steps+1)),-vs.qd*sin(theta_sync((k-1)*steps+1)),'AutoScale','off');
     drawnow
 end
 hold off;
@@ -148,95 +148,178 @@ hold off;
 %% e)
 % Due to non-ideality coming from window method of fft, lengthy input
 % signal is essential to have less window error.
-iter = 100
-theta_long = unwrap(horzcat(theta,iter));
-Vabcs_long = horzcat(Vabcs,iter);
+iter_array = 100
+theta_long = unwrap(horzcat(theta,iter_array));
+Vabcs_long = horzcat(Vabcs,iter_array);
 
 Ts = theta_long(1,2) - theta_long(1,1);
 Fs = 1/Ts;
 f = Fs/length(theta_long)*(0:length(theta_long)-1);
 
-vs.fft = abs(fft(Vabcs_long));
+vs.q_fft = fft(real(Vabcs_long));
+vs.d_fft = fft(-imag(Vabcs_long));
 
 % For detailed operation, look into the function below
 [Vabcs1 fund_freq] = harmonic_extract(Vabcs_long,theta_long,1);
 vs.q1 = real(Vabcs1);
 vs.d1 = -imag(Vabcs1);
 vs.qd1 = abs(Vabcs1(1));
-vs.fft1 = abs(fft(Vabcs1));
+vs.q_fft1 = fft(real(Vabcs1));
+vs.d_fft1 = fft(-imag(Vabcs1));
+vs.phase_angle1 = angle(Vabcs1(1,1));
+sign(angle(vs.q1(1,2) - j*vs.d1(1,2))-angle(vs.q1(1,1) - j*vs.d1(1,1)))
 
 
 Vabcs3 = harmonic_extract(Vabcs_long,theta_long,3);
 vs.q3 = real(Vabcs3);
 vs.d3 = -imag(Vabcs3);
 vs.qd3 = abs(Vabcs3(1));
-vs.fft3 = abs(fft(Vabcs3));
+vs.q_fft3 = fft(real(Vabcs3));
+vs.d_fft3 = fft(-imag(Vabcs3));
+vs.phase_angle3 = angle(Vabcs3(1,1));
+sign(angle(vs.q3(1,2) - j*vs.d3(1,2))-angle(vs.q3(1,1) - j*vs.d3(1,1)))
 
 Vabcs5 = harmonic_extract(Vabcs_long,theta_long,5);
 vs.q5 = real(Vabcs5);
 vs.d5 = -imag(Vabcs5);
 vs.qd5 = abs(Vabcs5(1));
-vs.fft5 = abs(fft(Vabcs5));
+vs.q_fft5 = fft(real(Vabcs5));
+vs.d_fft5 = fft(-imag(Vabcs5));
+vs.phase_angle5 = angle(Vabcs5(1,1));
+sign(angle(vs.q5(1,2) - j*vs.d5(1,2))-angle(vs.q5(1,1) - j*vs.d5(1,1)))
 
 Vabcs7 = harmonic_extract(Vabcs_long,theta_long,7);
 vs.q7 = real(Vabcs7);
 vs.d7 = -imag(Vabcs7);
 vs.qd7 = abs(Vabcs7(1));
-vs.fft7 = abs(fft(Vabcs7));
+vs.q_fft7 = fft(real(Vabcs7));
+vs.d_fft7 = fft(-imag(Vabcs7));
+vs.phase_angle7 = angle(Vabcs7(1,1));
+sign(angle(vs.q7(1,2) - j*vs.d7(1,2))-angle(vs.q7(1,1) - j*vs.d7(1,1)))
 
 Vabcs9 = harmonic_extract(Vabcs_long,theta_long,9);
 vs.q9 = real(Vabcs9);
 vs.d9 = -imag(Vabcs9);
 vs.qd9 = abs(Vabcs9(1));
-vs.fft9 = abs(fft(Vabcs9));
+vs.q_fft9 = fft(real(Vabcs9));
+vs.d_fft9 = fft(-imag(Vabcs9));
+vs.phase_angle9 = angle(Vabcs9(1,1));
+sign(angle(vs.q9(1,2) - j*vs.d9(1,2))-angle(vs.q9(1,1) - j*vs.d9(1,1)))
 
 Vabcs11 = harmonic_extract(Vabcs_long,theta_long,11);
 vs.q11 = real(Vabcs11);
 vs.d11 = -imag(Vabcs11);
 vs.qd11 = abs(Vabcs11(1));
-vs.fft11 = abs(fft(Vabcs11));
+vs.q_fft11 = fft(real(Vabcs11));
+vs.d_fft11 = fft(-imag(Vabcs11));
+vs.phase_angle11 = angle(Vabcs11(1,1));
+sign(angle(vs.q11(1,2) - j*vs.d11(1,2))-angle(vs.q11(1,1) - j*vs.d11(1,1)))
 
 Vabcs13 = harmonic_extract(Vabcs_long,theta_long,13);
 vs.q13 = real(Vabcs13);
 vs.d13 = -imag(Vabcs13);
 vs.qd13 = abs(Vabcs13(1));
-vs.fft13 = abs(fft(Vabcs13));
+vs.q_fft13 = fft(real(Vabcs13));
+vs.d_fft13 = fft(-imag(Vabcs13));
+vs.phase_angle13 = angle(Vabcs13(1,1));
+sign(angle(vs.q13(1,2) - j*vs.d13(1,2))-angle(vs.q13(1,1) - j*vs.d13(1,1)))
 
 Vabcs19 = harmonic_extract(Vabcs_long,theta_long,19);
 vs.q19 = real(Vabcs19);
 vs.d19 = -imag(Vabcs19);
 vs.qd19 = abs(Vabcs19(1));
-vs.fft19 = abs(fft(Vabcs19));
+vs.q_fft19 = fft(real(Vabcs19));
+vs.d_fft19 = fft(-imag(Vabcs19));
+vs.phase_angle19 = angle(Vabcs19(1,1));
 
 figure(50)
-stem(f,vs.fft,'DisplayName','Total fft')
-xlim([0 20*fund_freq])
+plot(f,abs(vs.q_fft),'DisplayName','Total q fft');hold on;legend;
+plot(f,abs(vs.d_fft),'--','DisplayName','Total d fft');hold off
+xlim([0 30*fund_freq])
 
-figure(51)
-stem(f,vs.fft1,'DisplayName','fft fundamental');hold on;legend
-stem(f,vs.fft3,'DisplayName','3rd harmonic')
-stem(f,vs.fft5,'DisplayName','5th harmonic')
-stem(f,vs.fft7,'DisplayName','7th harmonic')
-stem(f,vs.fft9,'DisplayName','9th harmonic')
-stem(f,vs.fft11,'DisplayName','11th harmonic')
-stem(f,vs.fft13,'DisplayName','13th harmonic')
-stem(f,vs.fft19,'DisplayName','19th harmonic')
+%%
+vs.fft1 = abs(vs.q_fft1-j*vs.d_fft1);
+vs.fft3 = abs(vs.q_fft3-j*vs.d_fft3);
+vs.fft5 = abs(vs.q_fft5-j*vs.d_fft5);
+vs.fft7 = abs(vs.q_fft7-j*vs.d_fft7);
+vs.fft9 = abs(vs.q_fft9-j*vs.d_fft9);
+vs.fft11 = abs(vs.q_fft11-j*vs.d_fft11);
+vs.fft13 = abs(vs.q_fft13-j*vs.d_fft13);
 
-xlim([0 20*fund_freq])
 
+
+% figure(51)
+% stem(f,vs.fft1,'DisplayName','fft fundamental');hold on;legend
+% stem(f,vs.fft3,'DisplayName','3rd harmonic')
+% stem(f,vs.fft5,'DisplayName','5th harmonic')
+% stem(f,vs.fft7,'DisplayName','7th harmonic')
+% stem(f,vs.fft9,'DisplayName','9th harmonic')
+% stem(f,vs.fft11,'DisplayName','11th harmonic')
+% stem(f,vs.fft13,'DisplayName','13th harmonic')
+% xlim([0 20*fund_freq])
+%%
 figure(52)
 plot(vs.q1,vs.d1); hold on
 plot(vs.q7,vs.d7);
+plot(vs.q11,vs.d11);
 plot(vs.q13,vs.d13);
 plot(vs.q19,vs.d19);
 
 
+iter = 2^8;
+steps = fix(length(theta_long)/iter);
+% Stationary frame
+figure(53);
+plot(vs.q1,vs.d1,'*r');grid on; hold on
+axis([-200 200 -200 200]);
+
+for k = 1:1:iter
+    quiver(0,0,vs.q1(1,(k-1)*steps+1),-vs.d1(1,(k-1)*steps+1));
+    drawnow
+end
+hold off;
+
+figure(54);
+plot(vs.q7,vs.d7,'*r');grid on; hold on
+axis([-50 50 -50 50]);
+for k = 1:1:iter
+    quiver(0,0,vs.q7(1,(k-1)*steps+1),-vs.d7(1,(k-1)*steps+1));
+    drawnow
+end
+hold off;
+
+figure(58);
+plot(vs.q11,vs.d11,'*r');grid on; hold on
+axis([-50 50 -50 50]);
+for k = 1:1:iter
+    quiver(0,0,vs.q11(1,(k-1)*steps+1),-vs.d11(1,(k-1)*steps+1));
+    drawnow
+end
+hold off;
+
+figure(55);
+plot(vs.q13,vs.d13,'*r');grid on; hold on
+axis([-50 50 -50 50]);
+for k = 1:1:iter
+    quiver(0,0,vs.q13(1,(k-1)*steps+1),-vs.d13(1,(k-1)*steps+1),'AutoScale','off');
+    drawnow
+end
+hold off;
+
+figure(56);
+plot(vs.q19,vs.d19,'*r');grid on; hold on
+axis([-50 50 -50 50]);
+for k = 1:1:iter
+    quiver(0,0,vs.q19(1,(k-1)*steps+1),-vs.d19(1,(k-1)*steps+1),'AutoScale','off');
+    drawnow
+end
+hold off;
 
 %%
 %% functions
 function [out fund_freq] = harmonic_extract(time_signal, theta, order)
     X_fft = fft(time_signal);
-    [M fund_index] = max(fft(time_signal));
+    [M fund_index] = max(abs(fft(time_signal)));
     
     Ts = theta(1,2) - theta(1,1);
     Fs = 1/Ts;
